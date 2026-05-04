@@ -1,10 +1,27 @@
-[gd_scene load_steps=11 format=3 uid="uid://u13nklt7w75n"]
+[gd_scene load_steps=18 format=3 uid="uid://u13nklt7w75n"]
 
 [ext_resource type="Script" uid="uid://dgxo5kmnbuu3i" path="res://Snail/snail.gd" id="1_pwjjn"]
 [ext_resource type="Script" uid="uid://v26kxxj7eqlo" path="res://Snail/snail_apply_physics.gd" id="2_ukn8p"]
 [ext_resource type="Script" uid="uid://carqotl7hho36" path="res://Snail/snail_movement.gd" id="3_ukn8p"]
 [ext_resource type="Texture2D" uid="uid://bw8ijuoe7vvin" path="res://Snail/snail.png" id="4_ukn8p"]
 [ext_resource type="FontFile" uid="uid://bkpsnr56xi0gc" path="res://Font/Mocha Choco.otf" id="5_b4rsl"]
+[ext_resource type="Texture2D" uid="uid://dtp6dcxyf008e" path="res://Snail/crosshair138.png" id="6_2cqx8"]
+[ext_resource type="AudioStream" uid="uid://d3acv5l6h72bd" path="res://Snail/fire.ogg" id="6_xey1x"]
+
+[sub_resource type="Animation" id="Animation_b4rsl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.45, 0.45)]
+}
 
 [sub_resource type="Animation" id="Animation_ukn8p"]
 resource_name = "wiggle"
@@ -23,21 +40,6 @@ tracks/0/keys = {
 "values": [Vector2(0.45, 0.45), Vector2(0.325, 0.45), Vector2(0.45, 0.45)]
 }
 
-[sub_resource type="Animation" id="Animation_b4rsl"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0.45, 0.45)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2cqx8"]
 _data = {
 &"RESET": SubResource("Animation_b4rsl"),
@@ -49,6 +51,117 @@ radius = 62.582462
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ukn8p"]
 size = Vector2(4, 4)
+
+[sub_resource type="Curve" id="Curve_2cqx8"]
+_limits = [0.0, 3.0, 0.0, 1.0]
+_data = [Vector2(0, 3), 0.0, -1.6947502, 0, 0, Vector2(1, 0.5730338), -2.6079252, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_xey1x"]
+colors = PackedColorArray(1, 1, 0.5137255, 1, 0.9999998, 0.16551244, 0.19147709, 1)
+
+[sub_resource type="Animation" id="Animation_2cqx8"]
+resource_name = "aim_progress"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:points")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [PackedVector2Array(-15.715, 0, -16.115, 0, -9.06, 0), PackedVector2Array(-77.105, 0, -77.77, 0, -9.06, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../../../SnailMovement")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"_fire"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_xey1x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:points")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0009999999),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [PackedVector2Array(-15.715, 0, -16.115, 0, -9.06, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"stop"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v6u88"]
+_data = {
+&"RESET": SubResource("Animation_xey1x"),
+&"aim_progress": SubResource("Animation_2cqx8")
+}
 
 [node name="Snail" type="CharacterBody2D"]
 collision_layer = 4
@@ -111,11 +224,27 @@ position = Vector2(5, -18)
 shape = SubResource("RectangleShape2D_ukn8p")
 debug_color = Color(0.96862745, 0, 0.46666667, 0.79607844)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = -140.0
-offset_top = -42.0
-offset_right = 598.229
-offset_bottom = 67.24369
+[node name="HealthLabel" type="RichTextLabel" parent="."]
+offset_left = -145.0
+offset_top = -38.0
+offset_right = 593.229
+offset_bottom = 71.24369
+scale = Vector2(0.3942599, 0.37137407)
+theme_override_colors/default_color = Color(1, 1, 0.5294118, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 15
+theme_override_fonts/normal_font = ExtResource("5_b4rsl")
+theme_override_font_sizes/normal_font_size = 66
+bbcode_enabled = true
+text = "100"
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="Name" type="RichTextLabel" parent="."]
+offset_left = -139.0
+offset_top = -56.0
+offset_right = 599.229
+offset_bottom = 53.24369
 scale = Vector2(0.379, 0.357)
 theme_override_colors/default_color = Color(1, 1, 0.5294118, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -126,6 +255,31 @@ bbcode_enabled = true
 text = "[wave]namey[/wave]"
 scroll_active = false
 horizontal_alignment = 1
+
+[node name="AimPivot" type="Node2D" parent="."]
+
+[node name="AimReticle" type="Node2D" parent="AimPivot"]
+position = Vector2(-83.00481, 0.448701)
+
+[node name="AimBar" type="Line2D" parent="AimPivot/AimReticle"]
+visible = false
+position = Vector2(83.00481, -0.44870102)
+points = PackedVector2Array(-15.715, 0, -16.115, 0, -9.06, 0)
+width_curve = SubResource("Curve_2cqx8")
+gradient = SubResource("Gradient_xey1x")
+joint_mode = 2
+
+[node name="AimAnimator" type="AnimationPlayer" parent="AimPivot/AimReticle/AimBar"]
+libraries = {
+&"": SubResource("AnimationLibrary_v6u88")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="AimPivot/AimReticle/AimBar"]
+stream = ExtResource("6_xey1x")
+
+[node name="ReticleSprite" type="Sprite2D" parent="AimPivot/AimReticle"]
+scale = Vector2(0.29166663, 0.29166663)
+texture = ExtResource("6_2cqx8")
 
 [connection signal="body_entered" from="LeftWallDetector" to="SnailMovement" method="_on_left_wall_detector_body_entered"]
 [connection signal="body_exited" from="LeftWallDetector" to="SnailMovement" method="_on_left_wall_detector_body_exited"]
