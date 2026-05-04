@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://c724pcsj1ccma"]
+
+[ext_resource type="Script" uid="uid://by6iciutc3fya" path="res://Snail/snail_cam.gd" id="1_hkjvv"]
+
+[node name="SnailCam" type="Camera2D"]
+limit_left = -3010
+limit_top = -560
+limit_right = 4130
+limit_bottom = 645
+script = ExtResource("1_hkjvv")
+_lerp_weight = 0.5

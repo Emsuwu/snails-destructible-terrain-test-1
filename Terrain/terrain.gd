@@ -1,13 +1,16 @@
 @tool
 extends Node2D
 
+@export_tool_button("Generate Map", "Reload") var generate_map_button : Callable = func(): _ready()
 @export var noise_type : FastNoiseLite.NoiseType = FastNoiseLite.TYPE_SIMPLEX
-@export var stretch : int
+@export var _max_terrain_height : int = 255
+@export_range(100,3000) var _terrain_length : int = 1280
+@export_range(1, 4) var _terrain_stretch : int = 1
+@export var _do_not_clear : bool
+@export_tool_button("Update", "ArrowUp") var update_button : Callable = func(): _update_terrain()
+@export_tool_button("Randomize", "Reload") var regenerate_button : Callable = func(): _generate_terrain()
+@export_tool_button("Clear", "Reload") var clear_button : Callable = func(): _clear_terrain()
 
-@export_tool_button("Update", "ArrowUp") var update_button = func(): _update_terrain()
-@export_tool_button("Generate", "Reload") var regenerate_button = func(): _generate_terrain()
-
-@export var max_terrain_height : int
 @export var tile_map : TileMapLayer
 
 var _noise_texture : NoiseTexture2D = NoiseTexture2D.new()
@@ -17,20 +20,26 @@ var _map_heights : Array[float]
 var _noise : FastNoiseLite
 
 func _ready():
+	_do_not_clear = true
+	_clear_terrain()
 	_generate_terrain()
+	_generate_terrain()
+	_generate_terrain()
+	_do_not_clear = false
 	$Sprite2D.texture = _noise_texture
-	
+func _clear_terrain():
+	tile_map.clear()	
 func _generate_terrain():
 	_generate_noise()
 	_read_noise()
-	tile_map.generate(_map_heights, max_terrain_height, stretch)
+	tile_map.generate(_map_heights, _max_terrain_height, _terrain_stretch, _do_not_clear)
 func _update_terrain():
 	_read_noise()
-	tile_map.generate(_map_heights, max_terrain_height, stretch)
+	tile_map.generate(_map_heights, _max_terrain_height, _terrain_stretch, _do_not_clear)
 	
 func _read_noise():
 	_map_heights.clear()
-	for x in range(1280):
+	for x in range(_terrain_length):
 		var raw_noise : float = _noise.get_noise_1d(x)
 		_map_heights.append(raw_noise)
 
