@@ -9,5 +9,6 @@ func _ready():
 
 func _physics_process(delta):
 	if !is_enabled: return
+	snail.velocity.x *= 0.85
 	snail.velocity += gravity * Snail.gravity_multiplier * delta
 	snail.move_and_slide()

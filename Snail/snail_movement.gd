@@ -32,7 +32,6 @@ func _process(delta):
 		snail.velocity.x = 100
 		if _wall_right: 
 			snail.velocity.y -= 500 * delta
-	snail.velocity.x *= 0.85
 	
 	if _is_moving:
 		_animator.play("wiggle")
