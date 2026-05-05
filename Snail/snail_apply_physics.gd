@@ -8,6 +8,7 @@ func _ready():
 	snail = owner
 
 func _physics_process(delta):
+	if !snail.is_active: return
 	if !is_enabled: return
 	snail.velocity.x *= 0.85
 	snail.velocity += gravity * Snail.gravity_multiplier * delta

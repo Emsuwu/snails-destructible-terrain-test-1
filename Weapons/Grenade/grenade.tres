@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=6 format=3 uid="uid://byjvx1edou652"]
+
+[ext_resource type="AudioStream" uid="uid://dfl06vgelyjmx" path="res://Weapons/Bazooka/bazooka_explode_1.mp3" id="1_j2y1d"]
+[ext_resource type="Texture2D" uid="uid://buy2shwx6ftci" path="res://Weapons/Grenade/grenade.png" id="1_uff11"]
+[ext_resource type="AudioStream" uid="uid://yponm2ldd6jr" path="res://Weapons/Bazooka/bazooka_explode_2.mp3" id="2_88j8d"]
+[ext_resource type="Script" uid="uid://vpv4aee0fldb" path="res://Weapons/weapon.gd" id="4_88j8d"]
+[ext_resource type="AudioStream" uid="uid://cknu5wi7vej6" path="res://Weapons/Grenade/grenade_use.ogg" id="5_88j8d"]
+
+[resource]
+script = ExtResource("4_88j8d")
+weapon_name = "Grenade"
+icon = ExtResource("1_uff11")
+projectile_sprite = ExtResource("1_uff11")
+held_weapon_sprite = ExtResource("1_uff11")
+held_weapon_offset = Vector2(-50, 0)
+use_sounds = Array[AudioStream]([ExtResource("5_88j8d")])
+explosion_sounds = Array[AudioStream]([ExtResource("1_j2y1d"), ExtResource("2_88j8d")])
+explosion_countdown = 5.0
+horizontal_drag_coefficient = 0.95
+rotation_behaviour = 1
+turn_speed = 0.32
+metadata/_custom_type_script = "uid://vpv4aee0fldb"

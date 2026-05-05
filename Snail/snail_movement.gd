@@ -4,8 +4,11 @@ extends Node
 @export var _animator : AnimationPlayer
 @onready var aim_pivot: Node2D = $'../AimPivot'
 @onready var reticle_sprite: Sprite2D = $'../AimPivot/AimReticle/ReticleSprite'
-@onready var aim_animator: AnimationPlayer = $'../AimPivot/AimReticle/AimBar/AimAnimator'
-@onready var aim_bar: Line2D = $'../AimPivot/AimReticle/AimBar'
+@onready var aim_animator : AnimationPlayer = $'../AimPivot/AimReticle/AimBar/AimAnimator'
+@onready var aim_bar : Line2D = $'../AimPivot/AimReticle/AimBar'
+@onready var weapon_sprite : Sprite2D = $'../AimPivot/AimReticle/WeaponSprite'
+@onready var projectile: PackedScene = preload("res://Weapons/projectile.tscn")
+
 var is_enabled = true
 var aim_rotation_offset : float
 var snail : CharacterBody2D
@@ -26,9 +29,11 @@ func _ready():
 	aim_bar.hide()
 
 func _process(delta):
+	if !snail.is_active: return
 	if Snail.focus != snail: 
 		_animator.stop()
 		reticle_sprite.hide()
+		weapon_sprite.hide()
 	if !is_enabled: return
 	if Snail.focus != snail: return
 	_do_movement(delta)
@@ -37,6 +42,11 @@ func _process(delta):
 
 func _do_aiming(delta : float):
 	reticle_sprite.show()
+	if snail.selected_weapon != null:
+		_set_weapon_visuals()
+	else:
+		weapon_sprite.hide()
+
 	if Input.is_action_pressed("aim_up"):
 		aim_rotation_offset += delta * RETICLE_ROTATE_SPEED
 	if Input.is_action_pressed("aim_down"):
@@ -49,7 +59,13 @@ func _do_aiming(delta : float):
 	else:
 		aim_pivot.rotation_degrees = 0 + aim_rotation_offset
 
+func _set_weapon_visuals():
+	weapon_sprite.texture = snail.selected_weapon.held_weapon_sprite
+	weapon_sprite.offset = -snail.selected_weapon.held_weapon_offset
+	weapon_sprite.show()
+
 func _do_firing():
+	if snail.selected_weapon == null: return
 	if Input.is_action_pressed("fire"):
 		if !aim_animator.is_playing() and !Snail.has_fired_shot_this_turn:
 			aim_bar.show()
@@ -62,10 +78,14 @@ func _do_firing():
 
 func _fire(power : float): # normalized between 0.0 and 1.0
 	if power == 0: power = 1
-	print("Firing shot with power: ", power)
 	aim_animator.stop()
 	aim_bar.hide()
 	Snail.has_fired_shot_this_turn = true
+
+	var new_projectile : WeaponProjectile = projectile.instantiate()
+	var direction : Vector2 = Vector2.RIGHT.rotated(deg_to_rad(aim_pivot.rotation_degrees - 180))
+	Terrain.instance.add_child(new_projectile)
+	new_projectile.launch(snail.selected_weapon, power, direction, snail.global_position)
 
 func _do_movement(delta : float):
 	_is_moving = false
@@ -73,12 +93,14 @@ func _do_movement(delta : float):
 		_is_moving = true
 		snail.velocity.x = -100
 		_sprite.flip_h = false
+		weapon_sprite.flip_v = false
 		if _wall_left: 
 			snail.velocity.y -= 500 * delta
 	if (Input.is_action_pressed("right")):
 		_is_moving = true
 		_sprite.flip_h = true
 		snail.velocity.x = 100
+		weapon_sprite.flip_v = true
 		if _wall_right: 
 			snail.velocity.y -= 500 * delta
 	if _is_moving:

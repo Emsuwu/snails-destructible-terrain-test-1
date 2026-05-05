@@ -1,12 +1,17 @@
-[gd_scene load_steps=18 format=3 uid="uid://u13nklt7w75n"]
+[gd_scene load_steps=23 format=3 uid="uid://u13nklt7w75n"]
 
 [ext_resource type="Script" uid="uid://dgxo5kmnbuu3i" path="res://Snail/snail.gd" id="1_pwjjn"]
 [ext_resource type="Script" uid="uid://v26kxxj7eqlo" path="res://Snail/snail_apply_physics.gd" id="2_ukn8p"]
 [ext_resource type="Script" uid="uid://carqotl7hho36" path="res://Snail/snail_movement.gd" id="3_ukn8p"]
+[ext_resource type="Script" uid="uid://ey2vvfwkldd5" path="res://Snail/debug_weapon_switcher.gd" id="4_dbisi"]
 [ext_resource type="Texture2D" uid="uid://bw8ijuoe7vvin" path="res://Snail/snail.png" id="4_ukn8p"]
+[ext_resource type="Script" uid="uid://vpv4aee0fldb" path="res://Weapons/weapon.gd" id="5_anyog"]
 [ext_resource type="FontFile" uid="uid://bkpsnr56xi0gc" path="res://Font/Mocha Choco.otf" id="5_b4rsl"]
 [ext_resource type="Texture2D" uid="uid://dtp6dcxyf008e" path="res://Snail/crosshair138.png" id="6_2cqx8"]
+[ext_resource type="Resource" uid="uid://baimpoy5cfiu8" path="res://Weapons/Bazooka/bazooka.tres" id="6_scism"]
+[ext_resource type="Texture2D" uid="uid://drjrdr78g6e4x" path="res://Weapons/Bazooka/bazooka_held.png" id="6_v6u88"]
 [ext_resource type="AudioStream" uid="uid://d3acv5l6h72bd" path="res://Snail/fire.ogg" id="6_xey1x"]
+[ext_resource type="Resource" uid="uid://byjvx1edou652" path="res://Weapons/Grenade/grenade.tres" id="7_scism"]
 
 [sub_resource type="Animation" id="Animation_b4rsl"]
 length = 0.001
@@ -59,6 +64,47 @@ point_count = 2
 
 [sub_resource type="Gradient" id="Gradient_xey1x"]
 colors = PackedColorArray(1, 1, 0.5137255, 1, 0.9999998, 0.16551244, 0.19147709, 1)
+
+[sub_resource type="Animation" id="Animation_xey1x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:points")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0009999999),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [PackedVector2Array(-15.715, 0, -16.115, 0, -9.06, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"stop"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_2cqx8"]
 resource_name = "aim_progress"
@@ -116,47 +162,6 @@ tracks/3/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_xey1x"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:points")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.0009999999),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [PackedVector2Array(-15.715, 0, -16.115, 0, -9.06, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("AudioStreamPlayer2D")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"stop"
-}]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v6u88"]
 _data = {
 &"RESET": SubResource("Animation_xey1x"),
@@ -180,6 +185,10 @@ script = ExtResource("2_ukn8p")
 script = ExtResource("3_ukn8p")
 _sprite = NodePath("../SnailSprite")
 _animator = NodePath("../SnailSprite/AnimationPlayer")
+
+[node name="DebugWeaponSwitcher" type="Node" parent="."]
+script = ExtResource("4_dbisi")
+weapons = Array[ExtResource("5_anyog")]([ExtResource("6_scism"), ExtResource("7_scism")])
 
 [node name="SnailSprite" type="Sprite2D" parent="."]
 position = Vector2(0, 6)
@@ -276,6 +285,11 @@ libraries = {
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="AimPivot/AimReticle/AimBar"]
 stream = ExtResource("6_xey1x")
+
+[node name="WeaponSprite" type="Sprite2D" parent="AimPivot/AimReticle"]
+position = Vector2(61.004807, -0.44870093)
+scale = Vector2(0.46153852, 0.46153846)
+texture = ExtResource("6_v6u88")
 
 [node name="ReticleSprite" type="Sprite2D" parent="AimPivot/AimReticle"]
 scale = Vector2(0.29166663, 0.29166663)

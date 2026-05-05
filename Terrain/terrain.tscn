@@ -17,13 +17,6 @@ colors = PackedColorArray(0.43780008, 0.61636114, 1, 1, 0.21335462, 0.21835041, 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_v7hrp"]
 gradient = SubResource("Gradient_wfl7s")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_axve3"]
-noise_type = 5
-seed = 1842085114
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_s6c0e"]
-noise = SubResource("FastNoiseLite_axve3")
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ka2uh"]
 texture = ExtResource("2_ka2uh")
 texture_region_size = Vector2i(4, 4)
@@ -39,14 +32,24 @@ sources/0 = SubResource("TileSetAtlasSource_ka2uh")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s6c0e"]
 size = Vector2(15820, 667)
 
-[node name="Terrain" type="Node2D" node_paths=PackedStringArray("tile_map", "_loading_label")]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_axve3"]
+noise_type = 5
+seed = 1842085114
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_s6c0e"]
+noise = SubResource("FastNoiseLite_axve3")
+
+[node name="Terrain" type="Node2D" node_paths=PackedStringArray("tile_map", "_loading_label", "_wind_label", "game_over_label", "_noise_sprite")]
 script = ExtResource("1_mmb8a")
 noise_type = 5
 _max_terrain_height = 750
 _terrain_length = 600
 _terrain_stretch = 3
 tile_map = NodePath("TileMapLayer")
-_loading_label = NodePath("Control/HBoxContainer/VBoxContainer/LoadingLabel")
+_loading_label = NodePath("CanvasLayer/Control/HBoxContainer/VBoxContainer/LoadingLabel")
+_wind_label = NodePath("CanvasLayer/Control/WindLabel")
+game_over_label = NodePath("CanvasLayer/Control/HBoxContainer/VBoxContainer/GameOverLabel")
+_noise_sprite = NodePath("CanvasLayer/Control/NoiseSprite")
 
 [node name="DebugSnailCycler" type="Node" parent="."]
 script = ExtResource("2_qt35e")
@@ -68,11 +71,6 @@ limit_right = 4130
 limit_bottom = 645
 script = ExtResource("2_wfl7s")
 _lerp_weight = 0.5
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture_filter = 1
-texture = SubResource("NoiseTexture2D_s6c0e")
-centered = false
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(0, 648)
@@ -117,13 +115,53 @@ position = Vector2(735, 67)
 _snail_name = "hilda"
 _team = 3
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 1152.0
-offset_bottom = 649.0
+[node name="InstantDeathBarrier" type="Area2D" parent="." groups=["InstantDeathBarrier"]]
+position = Vector2(177, 672)
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("9_axve3")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InstantDeathBarrier"]
+position = Vector2(302, 322)
+shape = SubResource("RectangleShape2D_s6c0e")
+debug_color = Color(0.9415818, 9.241105e-06, 0.6121586, 0.41960785)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NoiseSprite" type="Sprite2D" parent="CanvasLayer/Control"]
+texture_filter = 1
+position = Vector2(194, 22)
+scale = Vector2(0.40625, 0.40625)
+texture = SubResource("NoiseTexture2D_s6c0e")
+centered = false
+
+[node name="WindLabel" type="RichTextLabel" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_right = 188.0
+offset_bottom = 145.0
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.9843137, 0.7921569, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 25
+theme_override_fonts/normal_font = ExtResource("8_qiryx")
+theme_override_font_sizes/normal_font_size = 46
+bbcode_enabled = true
+text = "[wave]Wind <<<<[/wave]"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -132,11 +170,11 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LoadingLabel" type="RichTextLabel" parent="Control/HBoxContainer/VBoxContainer"]
+[node name="LoadingLabel" type="RichTextLabel" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
@@ -151,15 +189,20 @@ fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="InstantDeathBarrier" type="Area2D" parent="."]
-position = Vector2(177, 672)
-collision_layer = 0
-collision_mask = 4
-script = ExtResource("9_axve3")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InstantDeathBarrier"]
-position = Vector2(302, 322)
-shape = SubResource("RectangleShape2D_s6c0e")
-debug_color = Color(0.9415818, 9.241105e-06, 0.6121586, 0.41960785)
+[node name="GameOverLabel" type="RichTextLabel" parent="CanvasLayer/Control/HBoxContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.9843137, 0.7921569, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 25
+theme_override_fonts/normal_font = ExtResource("8_qiryx")
+theme_override_font_sizes/normal_font_size = 71
+bbcode_enabled = true
+text = "[color=yellow][wave]Game Over![/wave][/color]
+[font_size=30](Shift+R to reset)[/font_size]"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="body_entered" from="InstantDeathBarrier" to="InstantDeathBarrier" method="_on_body_entered"]

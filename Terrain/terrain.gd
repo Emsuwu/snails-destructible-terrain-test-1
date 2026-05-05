@@ -1,5 +1,8 @@
 @tool
+class_name Terrain
 extends Node2D
+
+static var instance : Terrain 
 
 @export_tool_button("Generate Map", "Reload") var generate_map_button : Callable = func(): _generate_map()
 @export var noise_type : FastNoiseLite.NoiseType = FastNoiseLite.TYPE_SIMPLEX
@@ -13,6 +16,12 @@ extends Node2D
 
 @export var tile_map : TileMapLayer
 @export var _loading_label : RichTextLabel
+@export var _wind_label : RichTextLabel
+@export var game_over_label : RichTextLabel
+
+@export var _noise_sprite : Sprite2D
+
+@export_range(-4, 4) var _wind : int = 0
 
 var _noise_texture : NoiseTexture2D = NoiseTexture2D.new()
 var _noise_image : Image
@@ -21,8 +30,31 @@ var _map_heights : Array[float]
 var _noise : FastNoiseLite
 
 func _ready():
+	Terrain.instance = self
 	if Engine.is_editor_hint(): return
 	_generate_map()
+
+func randomize_wind():
+	set_wind(randi_range(-4, 4))
+func set_wind(value : int):
+	_wind = value
+	var arrows : String = "|"
+	if _wind < 0:
+		arrows = ""
+		for i in range(-_wind):
+			arrows = arrows + "<"
+		arrows = arrows + "|"
+	elif _wind > 0:
+		arrows = "|"
+		for i in range(_wind):
+			arrows = arrows + ">"
+	if abs(_wind) <= 2:
+		_wind_label.text = "Wind\n"+arrows
+	else:
+		_wind_label.text = "[wave]Wind\n"+arrows+"[/wave]"
+
+	print("Wind:", _wind)
+
 
 func _generate_map():
 	_loading_label.show()
@@ -33,7 +65,7 @@ func _generate_map():
 	_generate_terrain()
 	_generate_terrain()
 	_do_not_clear = false
-	$Sprite2D.texture = _noise_texture
+	_noise_sprite.texture = _noise_texture
 	_loading_label.hide()
 
 func _clear_terrain():

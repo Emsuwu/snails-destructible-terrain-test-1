@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3 uid="uid://baimpoy5cfiu8"]
+
+[ext_resource type="AudioStream" uid="uid://dfl06vgelyjmx" path="res://Weapons/Bazooka/bazooka_explode_1.mp3" id="1_ci3xm"]
+[ext_resource type="AudioStream" uid="uid://yponm2ldd6jr" path="res://Weapons/Bazooka/bazooka_explode_2.mp3" id="2_y7b8r"]
+[ext_resource type="Texture2D" uid="uid://drjrdr78g6e4x" path="res://Weapons/Bazooka/bazooka_held.png" id="3_7m2ld"]
+[ext_resource type="Texture2D" uid="uid://cccbmx0pv7wpg" path="res://Weapons/Bazooka/bazooka_icon.png" id="4_iifr0"]
+[ext_resource type="Texture2D" uid="uid://7cnfbyhq1ug" path="res://Weapons/Bazooka/bazooka_projectile.png" id="5_0d2rv"]
+[ext_resource type="Script" uid="uid://vpv4aee0fldb" path="res://Weapons/weapon.gd" id="6_woil6"]
+[ext_resource type="AudioStream" uid="uid://4g5dhhs5234e" path="res://Weapons/Bazooka/bazooka_travel.ogg" id="7_b0gxi"]
+[ext_resource type="AudioStream" uid="uid://bg3kpxwph3rs6" path="res://Weapons/Bazooka/bazooka_launch.mp3" id="8_e2wpv"]
+
+[resource]
+script = ExtResource("6_woil6")
+weapon_name = "Bazooka"
+icon = ExtResource("4_iifr0")
+projectile_sprite = ExtResource("5_0d2rv")
+held_weapon_sprite = ExtResource("3_7m2ld")
+use_sounds = Array[AudioStream]([ExtResource("8_e2wpv")])
+travel_sounds = Array[AudioStream]([ExtResource("7_b0gxi")])
+explosion_sounds = Array[AudioStream]([ExtResource("1_ci3xm"), ExtResource("2_y7b8r")])
+explosion_radius = 32.0
+bounces_before_explosion = -1
+initial_speed = 1000.0
+wind_coefficient = 1.0
+gravity_coefficient = 0.2
+horizontal_drag_coefficient = 0.95
+metadata/_custom_type_script = "uid://vpv4aee0fldb"
