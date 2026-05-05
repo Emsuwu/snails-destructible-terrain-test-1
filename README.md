@@ -10,4 +10,4 @@ Prototype one of a worms clone made in godot.
 - Bazooka
 # TODO:
 - Explosions that damage terrain and nearby snails.
-- Try using a geometry clash and boolean operations on polygon to create destructible terrain ([example](https://www.youtube.com/watch?v=FiKsyOLacwA&list=LL&index=2)) rather than tilemap which is the current solution.
+- Try using a geometry class boolean operations on polygon to create destructible terrain ([example](https://www.youtube.com/watch?v=FiKsyOLacwA&list=LL&index=2)) rather than tilemap which is the current solution.
