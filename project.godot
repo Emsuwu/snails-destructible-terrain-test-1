@@ -15,6 +15,10 @@ run/main_scene="uid://cmiswd07kdr8e"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Effect="*res://Effects/fx.gd"
+
 [global_group]
 
 InstantDeathBarrier=""

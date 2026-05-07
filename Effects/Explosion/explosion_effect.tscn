@@ -1,0 +1,92 @@
+[gd_scene load_steps=19 format=3 uid="uid://0h00tcth2pdj"]
+
+[ext_resource type="Script" uid="uid://hevyq5csiudy" path="res://Effects/Explosion/explosion_effect.gd" id="1_c0rvb"]
+[ext_resource type="Texture2D" uid="uid://5c30av5pnwjm" path="res://Effects/Explosion/Sprites/Explosion/explosion00.png" id="1_judiv"]
+[ext_resource type="Texture2D" uid="uid://dy4wxv23m24tj" path="res://Effects/Explosion/Sprites/Explosion/explosion01.png" id="2_c0rvb"]
+[ext_resource type="Texture2D" uid="uid://ccdtghweskjrf" path="res://Effects/Explosion/Sprites/Explosion/explosion02.png" id="3_hcc4h"]
+[ext_resource type="Texture2D" uid="uid://bj7qgnfxlnvfx" path="res://Effects/Explosion/Sprites/Explosion/explosion03.png" id="4_m3p7j"]
+[ext_resource type="Texture2D" uid="uid://dxquxcmlfk16b" path="res://Effects/Explosion/Sprites/Explosion/explosion04.png" id="5_qj2ek"]
+[ext_resource type="Texture2D" uid="uid://bydhj20753elh" path="res://Effects/Explosion/Sprites/Explosion/explosion05.png" id="6_6roql"]
+[ext_resource type="Texture2D" uid="uid://dfkmi1jb1x2n0" path="res://Effects/Explosion/Sprites/Explosion/explosion06.png" id="7_edm1a"]
+[ext_resource type="Texture2D" uid="uid://cbevcfd33hg1y" path="res://Effects/Explosion/Sprites/Explosion/explosion07.png" id="8_4w2d1"]
+[ext_resource type="Texture2D" uid="uid://g22gfgoc1cmq" path="res://Effects/Explosion/Sprites/Explosion/explosion08.png" id="9_mwqry"]
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_vxh5u"]
+frames = 9
+speed_scale = 10.0
+frame_0/texture = ExtResource("1_judiv")
+frame_1/texture = ExtResource("2_c0rvb")
+frame_1/duration = 1.0
+frame_2/texture = ExtResource("3_hcc4h")
+frame_2/duration = 1.0
+frame_3/texture = ExtResource("4_m3p7j")
+frame_3/duration = 1.0
+frame_4/texture = ExtResource("5_qj2ek")
+frame_4/duration = 1.0
+frame_5/texture = ExtResource("6_6roql")
+frame_5/duration = 1.0
+frame_6/texture = ExtResource("7_edm1a")
+frame_6/duration = 1.0
+frame_7/texture = ExtResource("8_4w2d1")
+frame_7/duration = 1.0
+frame_8/texture = ExtResource("9_mwqry")
+frame_8/duration = 1.0
+
+[sub_resource type="Curve" id="Curve_lkvtc"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.06514658, 1), 0.0, 0.0, 0, 0, Vector2(0.15309447, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_qowyn"]
+curve = SubResource("Curve_lkvtc")
+
+[sub_resource type="Gradient" id="Gradient_cbcu2"]
+offsets = PackedFloat32Array(0, 0.13167259)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tdg6j"]
+gradient = SubResource("Gradient_cbcu2")
+
+[sub_resource type="Curve" id="Curve_nr7w5"]
+_data = [Vector2(0, 0.34144735), 0.0, 5.251316, 0, 0, Vector2(0.04885994, 0.5154242), 0.0, 0.0, 0, 0, Vector2(0.15309447, 0.29013157), -5.834795, -5.834795, 0, 0, Vector2(0.21498373, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_va7rs"]
+curve = SubResource("Curve_nr7w5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_10x5w"]
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(0, 0, 0)
+spread = 95.532
+initial_velocity_min = -1000.0
+initial_velocity_max = 1000.0
+angular_velocity_min = -100.000015
+angular_velocity_max = 99.999985
+gravity = Vector3(0, 98, 0)
+scale_min = 0.5
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_va7rs")
+color_ramp = SubResource("GradientTexture1D_tdg6j")
+alpha_curve = SubResource("CurveTexture_qowyn")
+
+[node name="ExplosionEffect" type="Node2D" node_paths=PackedStringArray("particles", "audio_stream_player")]
+script = ExtResource("1_c0rvb")
+particles = NodePath("GPUParticles2D")
+audio_stream_player = NodePath("AudioStreamPlayer")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+scale = Vector2(0.1971468, 0.1971468)
+emitting = false
+amount = 30
+texture = SubResource("AnimatedTexture_vxh5u")
+lifetime = 5.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_10x5w")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -20.0
+
+[connection signal="finished" from="GPUParticles2D" to="." method="_on_gpu_particles_2d_finished"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]
