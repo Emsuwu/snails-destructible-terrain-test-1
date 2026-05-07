@@ -30,16 +30,21 @@ enum RotationBehaviour {
 @export var explosion_sounds : Array[AudioStream]
 
 @export_group("Behaviour")
+@export_subgroup("Explosion")
 ## The radius of an explosion upon impact
 @export var explosion_radius : int
-## Bounces before explosion. 0 if doesn't bounce. -1 for infinite.
-@export_range(-1, 10) var bounces_before_explosion : int
 ## When the projectile is used, what is the initial velocity? This is multiplied by power. 1000 is a good starting point.
 @export var initial_speed : float = 800
 ## Time it takes for the projectile to automatically explode. 0: no countdown.
 @export_range(0, 100) var explosion_countdown : float
 ## How many explosions will happen before the projectile is freed
 @export_range(1, 20) var explosion_amount : int = 1
+
+@export_subgroup("Bounce")
+## How bouncy the projectile is
+@export_range(0, 1) var bounciness : float = 0.2
+## Bounces before explosion. 0 if doesn't bounce. -1 for infinite.
+@export_range(-1, 10) var bounces_before_explosion : int
 
 @export_subgroup("Forces")
 ## How much the projectile is affected by wind

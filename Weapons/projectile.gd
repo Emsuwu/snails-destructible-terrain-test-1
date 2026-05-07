@@ -30,8 +30,9 @@ func launch(used_weapon : Weapon, use_power : float, use_direction : Vector2, gl
 	global_position = global_spawn_position
 	sprite.texture = weapon.projectile_sprite
 	has_launched = true
-
 	gravity_scale = weapon.gravity_coefficient
+	physics_material_override = physics_material_override.duplicate()    
+	physics_material_override.bounce = weapon.bounciness
 
 	var launch_velocity = initial_direction * initial_power * weapon.initial_speed
 	apply_central_impulse(launch_velocity)

@@ -1,13 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://b2wbnovrq5a8r"]
+[gd_scene load_steps=5 format=3 uid="uid://b2wbnovrq5a8r"]
 
 [ext_resource type="Script" uid="uid://divdnjugfljx7" path="res://Weapons/projectile.gd" id="1_0jw1c"]
 [ext_resource type="Texture2D" uid="uid://buy2shwx6ftci" path="res://Weapons/Grenade/grenade.png" id="2_2ue5o"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ody5c"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ody5c"]
 
 [node name="Projectile" type="RigidBody2D"]
 collision_layer = 0
 collision_mask = 10
+mass = 0.5
+physics_material_override = SubResource("PhysicsMaterial_ody5c")
 lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 100
