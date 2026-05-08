@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cmiswd07kdr8e"]
+[gd_scene load_steps=21 format=3 uid="uid://cmiswd07kdr8e"]
 
 [ext_resource type="Script" uid="uid://me4yuoxqep31" path="res://Terrain/terrain.gd" id="1_mmb8a"]
 [ext_resource type="Texture2D" uid="uid://mh31ogei54a0" path="res://Terrain/tiles.png" id="2_ka2uh"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://cmafou11vp5nx" path="res://Terrain/terrain_tilemap.gd" id="3_alcef"]
 [ext_resource type="Script" uid="uid://cmx4nshofxsrx" path="res://General/debug_resetter.gd" id="3_v7hrp"]
 [ext_resource type="PackedScene" uid="uid://u13nklt7w75n" path="res://Snail/snail.tscn" id="4_qt35e"]
+[ext_resource type="Shader" uid="uid://b1oqr44nqktgb" path="res://Terrain/terrain_image_shader.gdshader" id="5_mskvx"]
+[ext_resource type="Texture2D" uid="uid://bh8use4wvpqv4" path="res://Terrain/sand_texture.jpg" id="6_hw3b3"]
 [ext_resource type="FontFile" uid="uid://bkpsnr56xi0gc" path="res://Font/Mocha Choco.otf" id="8_qiryx"]
 [ext_resource type="Script" uid="uid://11mhy4d6m4mt" path="res://Terrain/instant_death_barrier.gd" id="9_axve3"]
 [ext_resource type="Texture2D" uid="uid://gnr24t5xm55q" path="res://Terrain/tiling-water.png" id="10_s6c0e"]
@@ -17,6 +19,11 @@ colors = PackedColorArray(0.43780008, 0.61636114, 1, 1, 0.21335462, 0.21835041, 
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_v7hrp"]
 gradient = SubResource("Gradient_wfl7s")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s6c0e"]
+shader = ExtResource("5_mskvx")
+shader_parameter/overlay_texture = ExtResource("6_hw3b3")
+shader_parameter/scale = 0.04
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ka2uh"]
 texture = ExtResource("2_ka2uh")
@@ -33,12 +40,12 @@ sources/0 = SubResource("TileSetAtlasSource_ka2uh")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s6c0e"]
 size = Vector2(96274, 667)
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_axve3"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_hw3b3"]
 noise_type = 5
-seed = 1842085114
+seed = 1052046782
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_s6c0e"]
-noise = SubResource("FastNoiseLite_axve3")
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b6v13"]
+noise = SubResource("FastNoiseLite_hw3b3")
 
 [node name="Terrain" type="Node2D" node_paths=PackedStringArray("tile_map", "_loading_label", "_wind_label", "game_over_label", "_noise_sprite")]
 script = ExtResource("1_mmb8a")
@@ -74,6 +81,7 @@ script = ExtResource("2_wfl7s")
 _lerp_weight = 0.025
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
+material = SubResource("ShaderMaterial_s6c0e")
 position = Vector2(0, 648)
 tile_set = SubResource("TileSet_alcef")
 script = ExtResource("3_alcef")
@@ -143,7 +151,7 @@ size_flags_vertical = 3
 texture_filter = 1
 position = Vector2(194, 22)
 scale = Vector2(0.23242186, 0.23242186)
-texture = SubResource("NoiseTexture2D_s6c0e")
+texture = SubResource("NoiseTexture2D_b6v13")
 centered = false
 
 [node name="WindLabel" type="RichTextLabel" parent="CanvasLayer/Control"]
