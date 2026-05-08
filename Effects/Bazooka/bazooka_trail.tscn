@@ -97,13 +97,13 @@ point_count = 2
 curve = SubResource("Curve_ndf0m")
 
 [sub_resource type="Gradient" id="Gradient_lh5nt"]
-colors = PackedColorArray(0.26293245, 0.26293248, 0.26293233, 1, 1, 1, 1, 1)
+colors = PackedColorArray(0.26293245, 0.26293248, 0.26293233, 1, 0.20871013, 0.20871016, 0.20871013, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_dusqy"]
 gradient = SubResource("Gradient_lh5nt")
 
 [sub_resource type="Curve" id="Curve_lq56d"]
-_data = [Vector2(0, 0.5404884), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.0246469, 0.0, 0, 0]
+_data = [Vector2(0, 0.5404884), 0.0, 0.0, 0, 0, Vector2(1, 0.9914473), 1.3503388, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_x4ca0"]
@@ -114,7 +114,7 @@ particle_flag_disable_z = true
 direction = Vector3(0, 0, 0)
 gravity = Vector3(0, 0, 0)
 scale_min = 0.049999997
-scale_max = 0.049999997
+scale_max = 0.099999994
 scale_curve = SubResource("CurveTexture_x4ca0")
 color_ramp = SubResource("GradientTexture1D_dusqy")
 alpha_curve = SubResource("CurveTexture_8ilmc")
@@ -166,7 +166,7 @@ particle_flag_disable_z = true
 direction = Vector3(0, 0, 0)
 gravity = Vector3(0, 0, 0)
 scale_min = 0.02
-scale_max = 0.02
+scale_max = 0.049999997
 scale_curve = SubResource("CurveTexture_4rioc")
 color_ramp = SubResource("GradientTexture1D_136lt")
 alpha_curve = SubResource("CurveTexture_ii5ki")
@@ -176,16 +176,16 @@ script = ExtResource("1_ii5ki")
 particles = [NodePath("Smoke"), NodePath("Flame")]
 
 [node name="Smoke" type="GPUParticles2D" parent="."]
-emitting = false
-amount = 50
+scale = Vector2(11.840001, 11.840001)
+amount = 100
 texture = SubResource("AnimatedTexture_h0s2i")
 fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_ndf0m")
 
 [node name="Flame" type="GPUParticles2D" parent="."]
-emitting = false
-amount = 15
+scale = Vector2(13.56, 13.56)
+amount = 50
 texture = SubResource("AnimatedTexture_my1wg")
-lifetime = 0.09999999999999999
+lifetime = 0.2
 fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_lmh4v")

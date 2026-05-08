@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cmiswd07kdr8e"]
+[gd_scene load_steps=18 format=3 uid="uid://cmiswd07kdr8e"]
 
 [ext_resource type="Script" uid="uid://me4yuoxqep31" path="res://Terrain/terrain.gd" id="1_mmb8a"]
 [ext_resource type="Texture2D" uid="uid://mh31ogei54a0" path="res://Terrain/tiles.png" id="2_ka2uh"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://u13nklt7w75n" path="res://Snail/snail.tscn" id="4_qt35e"]
 [ext_resource type="FontFile" uid="uid://bkpsnr56xi0gc" path="res://Font/Mocha Choco.otf" id="8_qiryx"]
 [ext_resource type="Script" uid="uid://11mhy4d6m4mt" path="res://Terrain/instant_death_barrier.gd" id="9_axve3"]
+[ext_resource type="Texture2D" uid="uid://gnr24t5xm55q" path="res://Terrain/tiling-water.png" id="10_s6c0e"]
 
 [sub_resource type="Gradient" id="Gradient_wfl7s"]
 offsets = PackedFloat32Array(0, 0.74654377, 1)
@@ -30,7 +31,7 @@ physics_layer_0/collision_mask = 4
 sources/0 = SubResource("TileSetAtlasSource_ka2uh")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s6c0e"]
-size = Vector2(15820, 667)
+size = Vector2(96274, 667)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_axve3"]
 noise_type = 5
@@ -65,12 +66,12 @@ texture = SubResource("GradientTexture1D_v7hrp")
 
 [node name="SnailCam" type="Camera2D" parent="."]
 position = Vector2(576, 324)
-limit_left = -3010
+limit_left = 0
 limit_top = -560
-limit_right = 4130
+limit_right = 3550
 limit_bottom = 645
 script = ExtResource("2_wfl7s")
-_lerp_weight = 0.5
+_lerp_weight = 0.025
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(0, 648)
@@ -118,13 +119,13 @@ _team = 3
 [node name="InstantDeathBarrier" type="Area2D" parent="." groups=["InstantDeathBarrier"]]
 position = Vector2(177, 672)
 collision_layer = 0
-collision_mask = 4
+collision_mask = 20
 script = ExtResource("9_axve3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InstantDeathBarrier"]
 position = Vector2(302, 322)
 shape = SubResource("RectangleShape2D_s6c0e")
-debug_color = Color(0.9415818, 9.241105e-06, 0.6121586, 0.41960785)
+debug_color = Color(1, 1, 1, 0.42352942)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -141,7 +142,7 @@ size_flags_vertical = 3
 [node name="NoiseSprite" type="Sprite2D" parent="CanvasLayer/Control"]
 texture_filter = 1
 position = Vector2(194, 22)
-scale = Vector2(0.40625, 0.40625)
+scale = Vector2(0.23242186, 0.23242186)
 texture = SubResource("NoiseTexture2D_s6c0e")
 centered = false
 
@@ -204,5 +205,216 @@ text = "[color=yellow][wave]Game Over![/wave][/color]
 fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Ocean" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(-832, 628)
+scale = Vector2(4, 4)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean2" type="Sprite2D" parent="Ocean"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(32, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean3" type="Sprite2D" parent="Ocean"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(64, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean4" type="Sprite2D" parent="Ocean"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(96, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean5" type="Sprite2D" parent="Ocean"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(128, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean6" type="Sprite2D" parent="Ocean"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(160, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean7" type="Sprite2D" parent="Ocean"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(192, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean8" type="Sprite2D" parent="Ocean"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(224, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean2" type="Sprite2D" parent="Ocean/Ocean8"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(32, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean3" type="Sprite2D" parent="Ocean/Ocean8"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(64, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean4" type="Sprite2D" parent="Ocean/Ocean8"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(96, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean5" type="Sprite2D" parent="Ocean/Ocean8"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(128, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean6" type="Sprite2D" parent="Ocean/Ocean8"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(160, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean7" type="Sprite2D" parent="Ocean/Ocean8"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(192, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean9" type="Sprite2D" parent="Ocean"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(448, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean2" type="Sprite2D" parent="Ocean/Ocean9"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(32, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean3" type="Sprite2D" parent="Ocean/Ocean9"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(64, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean4" type="Sprite2D" parent="Ocean/Ocean9"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(96, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean5" type="Sprite2D" parent="Ocean/Ocean9"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(128, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean6" type="Sprite2D" parent="Ocean/Ocean9"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(160, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean7" type="Sprite2D" parent="Ocean/Ocean9"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(192, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean10" type="Sprite2D" parent="Ocean"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(672, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean2" type="Sprite2D" parent="Ocean/Ocean10"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(32, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean3" type="Sprite2D" parent="Ocean/Ocean10"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(64, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean4" type="Sprite2D" parent="Ocean/Ocean10"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(96, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean5" type="Sprite2D" parent="Ocean/Ocean10"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(128, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean6" type="Sprite2D" parent="Ocean/Ocean10"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(160, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean7" type="Sprite2D" parent="Ocean/Ocean10"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(192, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean11" type="Sprite2D" parent="Ocean"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(896, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean2" type="Sprite2D" parent="Ocean/Ocean11"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(32, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean3" type="Sprite2D" parent="Ocean/Ocean11"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(64, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean4" type="Sprite2D" parent="Ocean/Ocean11"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(96, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean5" type="Sprite2D" parent="Ocean/Ocean11"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(128, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean6" type="Sprite2D" parent="Ocean/Ocean11"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(160, 0)
+texture = ExtResource("10_s6c0e")
+
+[node name="Ocean7" type="Sprite2D" parent="Ocean/Ocean11"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(192, 0)
+texture = ExtResource("10_s6c0e")
 
 [connection signal="body_entered" from="InstantDeathBarrier" to="InstantDeathBarrier" method="_on_body_entered"]

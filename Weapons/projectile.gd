@@ -2,6 +2,8 @@ class_name WeaponProjectile
 extends RigidBody2D
 
 @onready var sprite: Sprite2D = $Sprite
+@export var travel_audio: AudioStreamPlayer
+@export var focus_point: CameraFocusPoint
 
 var weapon : Weapon
 var bounces_made : int
@@ -24,18 +26,26 @@ func _do_visual_rotation(delta : float):
 		sprite.rotation_degrees = rad_to_deg( linear_velocity.angle() )
 
 func launch(used_weapon : Weapon, use_power : float, use_direction : Vector2, global_spawn_position : Vector2):
+	weapon = used_weapon
+
+	if weapon.travel_sounds.size() >= 1:
+		travel_audio.stream = weapon.travel_sounds.pick_random()
+		travel_audio.play()
 	initial_power = use_power
 	initial_direction = use_direction.normalized()
-	weapon = used_weapon
 	global_position = global_spawn_position
 	sprite.texture = weapon.projectile_sprite
 	has_launched = true
 	gravity_scale = weapon.gravity_coefficient
 	physics_material_override = physics_material_override.duplicate()    
 	physics_material_override.bounce = weapon.bounciness
-
 	var launch_velocity = initial_direction * initial_power * weapon.initial_speed
 	apply_central_impulse(launch_velocity)
+
+	if weapon.particle_trail != null:
+		var new_trail : ParticleTrail = weapon.particle_trail.instantiate()
+		Terrain.instance.add_child(new_trail)
+		new_trail.start(self)
 
 	print("---- Firing shot -----")
 	print("Fire power: ", use_power)
@@ -65,7 +75,8 @@ func _on_body_entered(body: Node):
 	print("Bounces before explosion:", weapon.bounces_before_explosion)
 	print("Bounces:", bounces_made)
 
-func explode(radius : int):
+func explode(radius : int = -1):
+	if radius == -1: radius = weapon.explosion_radius
 	var center = get_projectile_tilemap_pos()
 	for cel_pos in get_cells_in_radius(center, radius):
 		TerrainTilemap.instance.set_cell(cel_pos, -1)
@@ -73,6 +84,10 @@ func explode(radius : int):
 	explosions_made += 1
 
 	if explosions_made >= weapon.explosion_amount:
+		focus_point.detach_and_destroy_in_secs(3.5)
+		if Snail.focus != null: Snail.focus.cycle_in_secs(6)
+		if Snail.focus != null: Snail.focus.emote(Snail.Emote.SIP, 6)
+		if Snail.focus != null: Snail.focus.selected_weapon = null
 		queue_free()
 
 func get_projectile_tilemap_pos() -> Vector2i:
@@ -86,6 +101,10 @@ func get_cells_in_radius(center: Vector2i, radius : int) -> Array[Vector2i]:
 		if check_is_cell_in_radius(center, pos, radius):
 			cells_in_radius.append(pos)
 	return cells_in_radius
-
 func check_is_cell_in_radius(center : Vector2i, cell_pos : Vector2i, radius : int) -> bool:
 	return (cell_pos.x - center.x)*(cell_pos.x - center.x) + (cell_pos.y - center.y)*(cell_pos.y - center.y) < radius*radius
+
+func _on_travel_audio_finished():
+	travel_audio.stream = weapon.travel_sounds.pick_random()
+	if weapon.loop_travel_sounds:
+		travel_audio.play()

@@ -4,6 +4,7 @@ extends Node
 var selected_weapon : int
 
 func _process(_delta):
+	if Snail.focus == null: return
 	if Input.is_action_just_pressed("debug_next_weapon"):
 		selected_weapon = ( selected_weapon + 1 ) % weapons.size()
 		print("Selected:", weapons[selected_weapon].weapon_name)

@@ -2,10 +2,16 @@ class_name Snail
 extends CharacterBody2D
 
 enum SnailTeam { BLUE, RED, YELLOW, GREEN }
-@export var selected_weapon : Weapon
+enum Emote { STOP, SIP }
+var emote_anim_names : Dictionary[Emote, String] = {Emote.SIP : "sip"}
 @export var _snail_name : String
 @export var _team : SnailTeam
 @export var _health : int = 100
+
+@export var selected_weapon : Weapon
+@export var emote_sprite : AnimatedSprite2D
+@export var sprite : Sprite2D
+
 @export var blue : Color
 @export var red : Color
 @export var yellow : Color
@@ -61,37 +67,61 @@ static func reset_statics():
 	has_fired_shot_this_turn = false
 	is_game_over = false
 
+func emote(animation : Emote = Emote.STOP, duration : float = -1):
+	if animation == Emote.STOP:
+		emote_sprite.stop()
+		emote_sprite.hide()
+		sprite.show()
+	else:
+		sprite.hide()
+		emote_sprite.show()
+		emote_sprite.play(emote_anim_names[animation])
+	if duration > 0:
+		await get_tree().create_timer(duration).timeout
+		sprite.show()
+		emote_sprite.stop()
+		emote_sprite.hide()
+
 func set_snail_name(snail_name : String):
 	_snail_name = snail_name
 	nametag.text = _snail_name
 
-static func cycle_snail_in_team():
-	has_fired_shot_this_turn = false
-	if teams[current_snail_in_teams[current_team]].size() != 0: current_snail_in_teams[current_team] = ( current_snail_in_teams[current_team] + 1 ) % teams[current_snail_in_teams[current_team]].size()
-	update_focus()
-static func cycle_team():
-	has_fired_shot_this_turn = false
-	if SnailTeam.size() != 0: current_team = (current_team + 1) % SnailTeam.size()
+func cycle_in_secs(secs: float):
+	await get_tree().create_timer(secs).timeout
+	cycle()
+
+static func cycle():
+	purge_empty_teams()
+	if teams.size() == 0: return
+	print(teams)
 	Terrain.instance.randomize_wind()
+	cycle_snail_in_team()
+	cycle_team()
 	update_focus()
+	has_fired_shot_this_turn = false
 
-	print("--------")
-	print("Teams: ", teams)
-	print("Current team: ", current_team)
-	print("Current snail in teams: ",current_snail_in_teams)
-	print("Active snail: ", focus)
+static func purge_empty_teams():
+	for i in range(teams.size()-1, -1, -1):
+		if teams[i].size() == 0:
+			teams.remove_at(i)
+	if teams.size() != 0: current_team = current_team % teams.size()
 
-static func update_focus(recursion_depth : int = 0):
-	if recursion_depth > teams.size():
-		print("Game over")
-		Snail.is_game_over = true
-		Terrain.instance.game_over_label.show()
-		return
-	if teams[current_team].is_empty():
-		current_team = (current_team + 1) % teams.size()
-		update_focus(recursion_depth + 1)
-	if Snail.is_game_over: return
-	focus = teams[current_team][current_snail_in_teams[current_team]]
+static func cycle_snail_in_team():
+	current_snail_in_teams[current_team] = (current_snail_in_teams[current_team] + 1) % teams[current_team].size()
+
+static func cycle_team():
+	current_team = (current_team + 1) % teams.size()
+
+static func update_focus():
+	print("~~~")
+	print(current_team)
+	print(current_snail_in_teams[current_team]) # causes out of bounds error
+
+	if current_snail_in_teams[current_team] >= teams[current_team].size():
+		current_snail_in_teams[current_team] = 0
+
+	Snail.focus = teams[current_team][current_snail_in_teams[current_team]]
+
 
 static func focus_random():
 	focus = teams[0][0]
@@ -103,7 +133,8 @@ func on_death(is_instant : bool = false):
 	print("Stu-pid!")
 	if is_instant:
 		call_deferred("_check_game_over")
-		if Snail.focus == self: cycle_team()
+		if Snail.focus == self:
+			cycle()
 		remove_from_team(self)
 		self.queue_free()
 

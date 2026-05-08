@@ -8,6 +8,7 @@ extends Node
 @onready var aim_bar : Line2D = $'../AimPivot/AimReticle/AimBar'
 @onready var weapon_sprite : Sprite2D = $'../AimPivot/AimReticle/WeaponSprite'
 @onready var projectile: PackedScene = preload("res://Weapons/projectile.tscn")
+@export var aim_audio_stream_player : AudioStreamPlayer2D
 
 var is_enabled = true
 var aim_rotation_offset : float
@@ -81,14 +82,15 @@ func _fire(power : float): # normalized between 0.0 and 1.0
 	aim_animator.stop()
 	aim_bar.hide()
 	Snail.has_fired_shot_this_turn = true
-
 	var new_projectile : WeaponProjectile = projectile.instantiate()
 	var direction : Vector2 = Vector2.RIGHT.rotated(deg_to_rad(aim_pivot.rotation_degrees - 180))
 	Terrain.instance.add_child(new_projectile)
 	new_projectile.launch(snail.selected_weapon, power, direction, snail.global_position)
+	aim_audio_stream_player.stop()
 
 func _do_movement(delta : float):
 	_is_moving = false
+	if Snail.has_fired_shot_this_turn: return
 	if (Input.is_action_pressed("left")):
 		_is_moving = true
 		snail.velocity.x = -100

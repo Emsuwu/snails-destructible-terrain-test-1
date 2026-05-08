@@ -58,9 +58,9 @@ particle_flag_disable_z = true
 angle_min = -720.0
 angle_max = 720.0
 direction = Vector3(0, 0, 0)
-spread = 95.532
-initial_velocity_min = -1000.0
-initial_velocity_max = 1000.0
+spread = 180.0
+initial_velocity_min = -25.0
+initial_velocity_max = 25.0
 angular_velocity_min = -100.000015
 angular_velocity_max = 99.999985
 gravity = Vector3(0, 98, 0)
@@ -76,7 +76,7 @@ particles = NodePath("GPUParticles2D")
 audio_stream_player = NodePath("AudioStreamPlayer")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-scale = Vector2(0.1971468, 0.1971468)
+scale = Vector2(8.477148, 8.477148)
 emitting = false
 amount = 30
 texture = SubResource("AnimatedTexture_vxh5u")

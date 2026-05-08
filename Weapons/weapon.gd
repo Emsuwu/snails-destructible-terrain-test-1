@@ -29,6 +29,14 @@ enum RotationBehaviour {
 ## Array of sounds that could play upon projectile explosion. One will be picked at random.
 @export var explosion_sounds : Array[AudioStream]
 
+@export_group("Visual")
+## How projectile rotation is handled
+@export var rotation_behaviour : RotationBehaviour
+## How quickly rotation occurs
+@export_range(0.05, 1) var turn_speed : float
+## The particle trail node that is instantiated upon the projectile being used
+@export var particle_trail : PackedScene
+
 @export_group("Behaviour")
 @export_subgroup("Explosion")
 ## The radius of an explosion upon impact
@@ -53,9 +61,3 @@ enum RotationBehaviour {
 @export_range(0, 10) var gravity_coefficient : float = 1
 ## Drag coefficient. This number is multiplied by velocity.x to simulate drag. 1 for no drag.
 @export_range(0, 1) var horizontal_drag_coefficient : float = 0.985
-
-@export_subgroup("Visual")
-## How projectile rotation is handled
-@export var rotation_behaviour : RotationBehaviour
-## How quickly rotation occurs
-@export_range(0.05, 1) var turn_speed : float

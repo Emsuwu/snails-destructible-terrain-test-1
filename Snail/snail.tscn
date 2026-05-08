@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://u13nklt7w75n"]
+[gd_scene load_steps=40 format=3 uid="uid://u13nklt7w75n"]
 
 [ext_resource type="Script" uid="uid://dgxo5kmnbuu3i" path="res://Snail/snail.gd" id="1_pwjjn"]
 [ext_resource type="Script" uid="uid://v26kxxj7eqlo" path="res://Snail/snail_apply_physics.gd" id="2_ukn8p"]
@@ -8,10 +8,26 @@
 [ext_resource type="Script" uid="uid://vpv4aee0fldb" path="res://Weapons/weapon.gd" id="5_anyog"]
 [ext_resource type="FontFile" uid="uid://bkpsnr56xi0gc" path="res://Font/Mocha Choco.otf" id="5_b4rsl"]
 [ext_resource type="Texture2D" uid="uid://dtp6dcxyf008e" path="res://Snail/crosshair138.png" id="6_2cqx8"]
-[ext_resource type="Resource" uid="uid://baimpoy5cfiu8" path="res://Weapons/Bazooka/bazooka.tres" id="6_scism"]
+[ext_resource type="Resource" uid="uid://baimpoy5cfiu8" path="res://Weapons/Resources/bazooka.tres" id="6_scism"]
 [ext_resource type="Texture2D" uid="uid://drjrdr78g6e4x" path="res://Weapons/Bazooka/bazooka_held.png" id="6_v6u88"]
 [ext_resource type="AudioStream" uid="uid://d3acv5l6h72bd" path="res://Snail/fire.ogg" id="6_xey1x"]
-[ext_resource type="Resource" uid="uid://byjvx1edou652" path="res://Weapons/Grenade/grenade.tres" id="7_scism"]
+[ext_resource type="Resource" uid="uid://byjvx1edou652" path="res://Weapons/Resources/grenade.tres" id="7_scism"]
+[ext_resource type="Texture2D" uid="uid://ds32cfy5hd64d" path="res://Snail/Emote/Sip/frame_00_delay-0.1s.jpg" id="12_11go8"]
+[ext_resource type="Texture2D" uid="uid://42f285e2e2io" path="res://Snail/Emote/Sip/frame_01_delay-0.1s.jpg" id="13_icex0"]
+[ext_resource type="Texture2D" uid="uid://c676p066anfk8" path="res://Snail/Emote/Sip/frame_02_delay-0.1s.jpg" id="14_0ijfr"]
+[ext_resource type="Texture2D" uid="uid://gffvsgmu7dp2" path="res://Snail/Emote/Sip/frame_03_delay-0.1s.jpg" id="15_yo3bi"]
+[ext_resource type="Texture2D" uid="uid://wkudslns2qrg" path="res://Snail/Emote/Sip/frame_04_delay-0.1s.jpg" id="16_b3jjx"]
+[ext_resource type="Texture2D" uid="uid://vqetj0g01pib" path="res://Snail/Emote/Sip/frame_05_delay-0.1s.jpg" id="17_yf2bv"]
+[ext_resource type="Texture2D" uid="uid://b0g1ncp5wwrww" path="res://Snail/Emote/Sip/frame_06_delay-0.1s.jpg" id="18_py0tn"]
+[ext_resource type="Texture2D" uid="uid://dsiy11l3vtw0e" path="res://Snail/Emote/Sip/frame_07_delay-0.1s.jpg" id="19_gpyy1"]
+[ext_resource type="Texture2D" uid="uid://cfva0j6hy5h52" path="res://Snail/Emote/Sip/frame_08_delay-0.1s.jpg" id="20_q8mre"]
+[ext_resource type="Texture2D" uid="uid://cwjgokck28jcf" path="res://Snail/Emote/Sip/frame_09_delay-0.1s.jpg" id="21_8rfgf"]
+[ext_resource type="Texture2D" uid="uid://003elr4fr4p7" path="res://Snail/Emote/Sip/frame_10_delay-0.1s.jpg" id="22_trn4i"]
+[ext_resource type="Texture2D" uid="uid://3ja2y02246xx" path="res://Snail/Emote/Sip/frame_11_delay-0.1s.jpg" id="23_gar2a"]
+[ext_resource type="Texture2D" uid="uid://bc2g6a6q7his8" path="res://Snail/Emote/Sip/frame_12_delay-0.1s.jpg" id="24_tpycc"]
+[ext_resource type="Texture2D" uid="uid://bfhov8y64pp1y" path="res://Snail/Emote/Sip/frame_13_delay-0.1s.jpg" id="25_isg7v"]
+[ext_resource type="Texture2D" uid="uid://xsjkkg055utv" path="res://Snail/Emote/Sip/frame_14_delay-0.1s.jpg" id="26_xo6an"]
+[ext_resource type="Texture2D" uid="uid://dnk5ohpuvb4x8" path="res://Snail/Emote/Sip/frame_15_delay-0.1s.jpg" id="27_8nwpc"]
 
 [sub_resource type="Animation" id="Animation_b4rsl"]
 length = 0.001
@@ -168,11 +184,69 @@ _data = {
 &"aim_progress": SubResource("Animation_2cqx8")
 }
 
-[node name="Snail" type="CharacterBody2D"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_sex1a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_11go8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_icex0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_0ijfr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_yo3bi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_b3jjx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_yf2bv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_py0tn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_gpyy1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_q8mre")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_8rfgf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_trn4i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_gar2a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_tpycc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_isg7v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_xo6an")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_8nwpc")
+}],
+"loop": true,
+"name": &"sip",
+"speed": 15.0
+}]
+
+[node name="Snail" type="CharacterBody2D" node_paths=PackedStringArray("emote_sprite", "sprite")]
 collision_layer = 4
 collision_mask = 2
 floor_max_angle = 1.6144296
 script = ExtResource("1_pwjjn")
+emote_sprite = NodePath("Emote")
+sprite = NodePath("SnailSprite")
 blue = Color(0.19921005, 0.42818522, 1, 1)
 red = Color(1, 0.2898313, 0.3136241, 1)
 yellow = Color(0.99160606, 1, 0.4961443, 1)
@@ -181,10 +255,11 @@ green = Color(0, 0.84313726, 0, 1)
 [node name="ApplyPhysics" type="Node" parent="."]
 script = ExtResource("2_ukn8p")
 
-[node name="SnailMovement" type="Node" parent="." node_paths=PackedStringArray("_sprite", "_animator")]
+[node name="SnailMovement" type="Node" parent="." node_paths=PackedStringArray("_sprite", "_animator", "aim_audio_stream_player")]
 script = ExtResource("3_ukn8p")
 _sprite = NodePath("../SnailSprite")
 _animator = NodePath("../SnailSprite/AnimationPlayer")
+aim_audio_stream_player = NodePath("../AimPivot/AimReticle/AimBar/AudioStreamPlayer2D")
 
 [node name="DebugWeaponSwitcher" type="Node" parent="."]
 script = ExtResource("4_dbisi")
@@ -233,6 +308,44 @@ position = Vector2(5, -18)
 shape = SubResource("RectangleShape2D_ukn8p")
 debug_color = Color(0.96862745, 0, 0.46666667, 0.79607844)
 
+[node name="AimPivot" type="Node2D" parent="."]
+
+[node name="AimReticle" type="Node2D" parent="AimPivot"]
+position = Vector2(-83.00481, 0.448701)
+
+[node name="AimBar" type="Line2D" parent="AimPivot/AimReticle"]
+visible = false
+position = Vector2(83.00481, -0.44870102)
+points = PackedVector2Array(-15.715, 0, -16.115, 0, -9.06, 0)
+width_curve = SubResource("Curve_2cqx8")
+gradient = SubResource("Gradient_xey1x")
+joint_mode = 2
+
+[node name="AimAnimator" type="AnimationPlayer" parent="AimPivot/AimReticle/AimBar"]
+libraries = {
+&"": SubResource("AnimationLibrary_v6u88")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="AimPivot/AimReticle/AimBar"]
+stream = ExtResource("6_xey1x")
+
+[node name="WeaponSprite" type="Sprite2D" parent="AimPivot/AimReticle"]
+position = Vector2(61.004807, -0.44870093)
+scale = Vector2(0.46153852, 0.46153846)
+texture = ExtResource("6_v6u88")
+
+[node name="ReticleSprite" type="Sprite2D" parent="AimPivot/AimReticle"]
+scale = Vector2(0.29166663, 0.29166663)
+texture = ExtResource("6_2cqx8")
+
+[node name="Emote" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(0, 2)
+scale = Vector2(0.27142859, 0.27142859)
+sprite_frames = SubResource("SpriteFrames_sex1a")
+animation = &"sip"
+frame_progress = 0.8132453
+
 [node name="HealthLabel" type="RichTextLabel" parent="."]
 offset_left = -145.0
 offset_top = -38.0
@@ -264,36 +377,6 @@ bbcode_enabled = true
 text = "[wave]namey[/wave]"
 scroll_active = false
 horizontal_alignment = 1
-
-[node name="AimPivot" type="Node2D" parent="."]
-
-[node name="AimReticle" type="Node2D" parent="AimPivot"]
-position = Vector2(-83.00481, 0.448701)
-
-[node name="AimBar" type="Line2D" parent="AimPivot/AimReticle"]
-visible = false
-position = Vector2(83.00481, -0.44870102)
-points = PackedVector2Array(-15.715, 0, -16.115, 0, -9.06, 0)
-width_curve = SubResource("Curve_2cqx8")
-gradient = SubResource("Gradient_xey1x")
-joint_mode = 2
-
-[node name="AimAnimator" type="AnimationPlayer" parent="AimPivot/AimReticle/AimBar"]
-libraries = {
-&"": SubResource("AnimationLibrary_v6u88")
-}
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="AimPivot/AimReticle/AimBar"]
-stream = ExtResource("6_xey1x")
-
-[node name="WeaponSprite" type="Sprite2D" parent="AimPivot/AimReticle"]
-position = Vector2(61.004807, -0.44870093)
-scale = Vector2(0.46153852, 0.46153846)
-texture = ExtResource("6_v6u88")
-
-[node name="ReticleSprite" type="Sprite2D" parent="AimPivot/AimReticle"]
-scale = Vector2(0.29166663, 0.29166663)
-texture = ExtResource("6_2cqx8")
 
 [connection signal="body_entered" from="LeftWallDetector" to="SnailMovement" method="_on_left_wall_detector_body_entered"]
 [connection signal="body_exited" from="LeftWallDetector" to="SnailMovement" method="_on_left_wall_detector_body_exited"]
