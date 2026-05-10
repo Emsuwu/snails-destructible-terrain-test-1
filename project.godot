@@ -13,6 +13,9 @@ config_version=5
 config/name="Snails Destructible Terrain Test 1"
 run/main_scene="uid://cmiswd07kdr8e"
 config/features=PackedStringArray("4.5", "Forward Plus")
+boot_splash/bg_color=Color(1, 1, 1, 1)
+boot_splash/use_filter=false
+boot_splash/image="uid://b6m3ymo3kdyhm"
 config/icon="res://icon.svg"
 
 [autoload]
